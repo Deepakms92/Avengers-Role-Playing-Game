@@ -1,5 +1,6 @@
 package com.deeps.rpg.game;
 
+import com.deeps.rpg.game.impl.GameImpl;
 import com.deeps.rpg.helper.GameViewHelper;
 import com.deeps.rpg.player.Player;
 import org.junit.Before;
@@ -16,12 +17,12 @@ import org.powermock.reflect.Whitebox;
 import java.io.ByteArrayInputStream;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({GameViewHelper.class,GameCreator.class})
+@PrepareForTest({GameViewHelper.class, GameImpl.class})
 public class GameCreatorTest {
 
 //    @Mock(serializable = true)
     @Mock(answer = Answers.RETURNS_MOCKS)
-    GameCreator gameCreator;
+    GameImpl gameCreator;
 
     @Mock(serializable = true)
     Player player;

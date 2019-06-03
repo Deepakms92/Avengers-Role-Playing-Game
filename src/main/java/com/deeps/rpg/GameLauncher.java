@@ -1,6 +1,7 @@
 package com.deeps.rpg;
 
-import com.deeps.rpg.game.GameCreator;
+import com.deeps.rpg.game.Game;
+import com.deeps.rpg.game.impl.GameImpl;
 import com.deeps.rpg.helper.GameViewHelper;
 
 
@@ -17,7 +18,7 @@ public class GameLauncher {
 
         if(startGame){
             //start game
-            GameCreator game = new GameCreator();
+            Game game = new GameImpl();
             game.start();
         }else {
             //close application.

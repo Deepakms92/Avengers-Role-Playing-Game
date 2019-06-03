@@ -1,4 +1,4 @@
-package com.deeps.rpg.game;
+package com.deeps.rpg.game.impl;
 
 import com.deeps.rpg.character.superhero.SuperHero;
 import com.deeps.rpg.character.superhero.SuperHeroBuilder;
@@ -7,6 +7,8 @@ import com.deeps.rpg.constants.GameConstants;
 import com.deeps.rpg.exception.GameException;
 import com.deeps.rpg.exception.PlayerException;
 import com.deeps.rpg.fight.Fight;
+import com.deeps.rpg.fight.impl.FightImpl;
+import com.deeps.rpg.game.Game;
 import com.deeps.rpg.helper.GameViewHelper;
 import com.deeps.rpg.player.Player;
 import com.deeps.rpg.player.PlayerState;
@@ -18,16 +20,11 @@ import java.io.*;
 import java.util.Arrays;
 import java.util.List;
 
-/* GameCreator  class
- - Class represent a game and control game flow.
- Part of MVP (User story 3) and enhancements
-* */
-public class GameCreator {
+public class GameImpl implements Game {
 
     private Player userPlayer;
-
     //constructor
-     public GameCreator() {
+    public GameImpl() {
         initGame();
     }
 
@@ -38,7 +35,7 @@ public class GameCreator {
     }
 
     //method to clean up when game finished and close application.
-    private void finishGame() {
+    public void finishGame() {
         //save game and exit
         saveGame(userPlayer);
         GameViewHelper.sayGoodBye();
@@ -47,7 +44,8 @@ public class GameCreator {
 
 
     // method to start game
-    public void start(){
+    @Override
+    public void start() {
 
         //menu to prompt user to choose existing saved player or new player
         showChoosePlayerMenu();
@@ -56,15 +54,33 @@ public class GameCreator {
         showMainMenu();
     }
 
+
+    //create a new Hero by asking info from player
+
+    private void createNewHero() {
+        SuperHeroBuilder superHeroBuilder = GameViewHelper.getInfoofNewSuperHero();
+        SuperHero newSuperHero = superHeroBuilder.build();
+        GameViewHelper.showSuperHeroDetails(newSuperHero);
+        //add hero to repository
+        SuperHeroRepository.getInstance().addSuperHero(newSuperHero);
+        //assign hero to player
+        userPlayer.setSuperHero(newSuperHero);
+
+    }
+
+
     //MEthod to show the choose player Menu
+
     private void showChoosePlayerMenu() {
 
         int choice = GameViewHelper.askToChoosePlayer();
         createOrChoosePlayer(choice);
     }
 
+
     //create or choose existing player according to user choice.
-    private void createOrChoosePlayer(int choice) {
+    @Override
+    public void createOrChoosePlayer(int choice) {
         switch (choice){
             case 1:
                 //create new player
@@ -88,6 +104,7 @@ public class GameCreator {
 
 
         }
+
     }
 
     private void chooseExistingPlayer() throws PlayerException {
@@ -111,7 +128,8 @@ public class GameCreator {
     /* Retrieve player saved info
      *  parameters : playerFile(File) - saved file of player
      */
-    private void retrieveSavedPlayer(File playerFile) {
+    @Override
+    public void retrieveSavedPlayer(File playerFile) {
 
         FileInputStream fileInputStream;
         try {
@@ -166,12 +184,14 @@ public class GameCreator {
         }
     }
 
+
     /*Show main menu to user -
      Create or choose Hero
      Train Hero
      Fight
      Save and quit*/
-    private void showMainMenu() {
+    @Override
+    public void showMainMenu() {
 
         int choice = GameViewHelper.showMainMenu(userPlayer.getPlayerState());
         try {
@@ -231,7 +251,9 @@ public class GameCreator {
         }
     }
 
-    private void saveGame(Player player) {
+
+    @Override
+    public void saveGame(Player player) {
         String name = GameConstants.SAVED_PLAYER_DIR_NAME + "/" + player.getPlayerName() + GameConstants.SERIALISED_PLAYER_FILE_TYPE;
         FileOutputStream fileOutputStream;
         try {
@@ -244,8 +266,8 @@ public class GameCreator {
         } catch (IOException e){
             e.printStackTrace();
         }
-    }
 
+    }
 
     // create new superHEro or choose existing SuperHEro for player
     private void createCharacter() {
@@ -274,8 +296,6 @@ public class GameCreator {
         }
     }
 
-
-
     //Method to show the Training Options
     private void showTrainingOption() {
         int choice = GameViewHelper.askToTrainSuperHero();
@@ -289,12 +309,10 @@ public class GameCreator {
                 break;
         }
     }
-
-
     //methods for fight
     private void fight() {
         System.out.println("Fight."+CommandLineColors.ANSI_CYAN);
-        Fight fight = new Fight(userPlayer);
+        Fight fight = new FightImpl(userPlayer);
         boolean userWon = fight.startFight();
 
         if(userWon){
@@ -348,20 +366,6 @@ public class GameCreator {
     }
 
 
-    //create a new Hero by asking info from player
-    private void createNewHero() {
-
-        SuperHeroBuilder superHeroBuilder = GameViewHelper.getInfoofNewSuperHero();
-        SuperHero newSuperHero = superHeroBuilder.build();
-        GameViewHelper.showSuperHeroDetails(newSuperHero);
-        //add hero to repository
-        SuperHeroRepository.getInstance().addSuperHero(newSuperHero);
-        //assign hero to player
-        userPlayer.setSuperHero(newSuperHero);
-    }
-
-
-
     //show existing available heroes
     private void showExistingAvailableHeroes() throws GameException {
 
@@ -380,12 +384,4 @@ public class GameCreator {
         //assign hero to player
         userPlayer.setSuperHero(superHeroChosen);
     }
-
-
-
-
-
-
-
-
 }
