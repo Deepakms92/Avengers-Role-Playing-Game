@@ -5,3 +5,8 @@ The code was done as part of code puzzle of which the user stories cant be publi
 The game developed has a lot of room for improvement.
 A lot can be improved on the test cases .
 
+You can build the project using command
+mvn clean install
+
+you can run the jar file running java -jar and the jar file that i generated after building the project.
+
