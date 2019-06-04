@@ -76,7 +76,7 @@ public class GameViewHelper {
     }
 
     public static void sayGoodBye() {
-        System.out.print("GoodByes are Hard to Say :D.Still you are forcing me to do that ,very emotional at the moment:P, Nevertheless GOODBYEE:("+CommandLineColors.ANSI_BLUE);
+        System.out.println("GoodByes are Hard to Say :D.Still you are forcing me to do that ,very emotional at the moment:P, Nevertheless GOODBYEE:("+CommandLineColors.ANSI_BLUE);
     }
 
     private static String showOptions(String questionPrompt, String[] options, String answerPrompt, String[] validInputOptions){
@@ -128,7 +128,7 @@ public class GameViewHelper {
         }else {
             createCharacterOptionsStr = "1. Change super hero";
         }
-        String[] options = new String[] {createCharacterOptionsStr,"2. Training", "3. Fight", "4. Save and Quit"};
+        String[] options = new String[] {createCharacterOptionsStr,"2. Training", "3. Fight", "4. Save and Continue"};
         String[] validInputOptions = new String[] {"1","2", "3", "4"};
         String answerPrompt = "What you want to do? : ";
         String choice = showOptions(questionPrompt, options, answerPrompt, validInputOptions);
@@ -213,7 +213,7 @@ public class GameViewHelper {
         String height = scanner.nextLine();
         builder.setHeight(Float.parseFloat(height));
 
-        System.out.print("What is your wight? : "+CommandLineColors.ANSI_BLUE);
+        System.out.print("What is your weight? : "+CommandLineColors.ANSI_BLUE);
         String weight = scanner.nextLine();
         builder.setAge(Integer.parseInt(weight));
 
@@ -309,6 +309,23 @@ public class GameViewHelper {
         return random.nextBoolean();
     }
 
+
+    public static String toAskForChoice(){
+        System.out.print("You can alternatively press on Q to Quit to any other key to contiue");
+        return scanner.next();
+
+
+    }
+
+    public static void aboutTheDeveloper(){
+        System.out.println("Developer-------------------------------Deepak Mallampalli");
+        System.out.println("Creation--------------------------------Deepak Mallampalli");
+        System.out.println("Producer--------------------------------Deepak Mallampalli");
+        System.out.println("Graphics--------------------------------Deepak Mallampalli");
+        System.out.println("Thanks and check out more games from US");
+
+
+    }
 
 
 

@@ -38,8 +38,16 @@ public class GameImpl implements Game {
     public void finishGame() {
         //save game and exit
         saveGame(userPlayer);
-        GameViewHelper.sayGoodBye();
-        System.exit(0);
+        String input= GameViewHelper.toAskForChoice();
+        if(input.equalsIgnoreCase("Q")){
+            GameViewHelper.sayGoodBye();
+            GameViewHelper.aboutTheDeveloper();
+            System.exit(0);
+        }
+        else{
+            showMainMenu();
+        }
+
     }
 
 
@@ -169,9 +177,15 @@ public class GameImpl implements Game {
 
     //method to create new player with name asked form user
     private void createNewPlayer() throws PlayerException {
-
+        File playerFile=null;
         String playerName = GameViewHelper.askUserForPlayerName();
-        File playerFile = checkIfPlayerAlreadyExist(playerName+GameConstants.SERIALISED_PLAYER_FILE_TYPE);
+        if(!GameUtils.isNumeric(playerName)){
+            playerFile = checkIfPlayerAlreadyExist(playerName+GameConstants.SERIALISED_PLAYER_FILE_TYPE);
+        }
+        else{
+            throw new PlayerException("Name should not be in number");
+        }
+
 
         if(playerFile != null){
             //already exist player with name

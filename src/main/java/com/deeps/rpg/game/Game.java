@@ -1,5 +1,6 @@
 package com.deeps.rpg.game;
 
+import com.deeps.rpg.exception.GameException;
 import com.deeps.rpg.player.Player;
 
 import java.io.File;
